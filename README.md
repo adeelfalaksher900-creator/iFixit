@@ -62,4 +62,4 @@ The 16 automated domain/API tests cover authorization, public/receipt isolation,
 
 Built for Environment & Sustainability. Primary repair-network data motivates the problem; local firsthand evidence and a real partner pilot are still pending. ChatGPT/Codex assisted research, implementation, design and testing. Better Design iOS references and Lumen glass/spacing guidance informed the UI. System fonts are used, with no remote font requests. Open-source dependencies are credited in `THIRD_PARTY_NOTICES.md`.
 
-The creator has approved website review and requested a narrated walkthrough and 15 captioned gallery screenshots. Media preparation is in progress. The Devpost entry remains a draft.
+The 1080p, 4-minute-19-second Hyperframes walkthrough, synthetic English narration, captions, project thumbnail and 15 gallery captures are prepared. The 15 captioned images and thumbnail are saved to the Devpost draft; the complete MP4 is also packaged as a supporting attachment. YouTube verification is still needed for the embedded demo URL. The Devpost entry remains a draft.
