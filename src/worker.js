@@ -12,6 +12,7 @@ import {
   requestSchema,
   offerSchema,
   actionSchema,
+  managementSchema,
 } from "./validation.js";
 import { ASSETS } from "../generated/assets.js";
 const DAY = 86400000;
@@ -163,13 +164,13 @@ async function api(req, env) {
     now = Date.now();
   if (req.method === "POST") {
     const origin = req.headers.get("Origin");
-    if (origin && origin !== u.origin)
+    if (origin && origin !== u.origin && origin !== env.APP_ORIGIN)
       fail("Cross-site writes are not allowed.", 403);
     if (req.headers.get("Sec-Fetch-Site") === "cross-site")
       fail("Cross-site writes are not allowed.", 403);
   }
   if (p[1] === "health" && req.method === "GET")
-    return json({ status: "ok", version: "1.0.0" });
+    return json({ status: "ok", version: "2.0.0" });
   if (p[1] === "benches" && p.length === 2 && req.method === "POST") {
     await rate(env, req, "create", 10);
     const input = await body(req, benchSchema),
@@ -218,6 +219,24 @@ async function api(req, env) {
       for (const row of rows) await addRepair(env, b, row);
     }
     return json({ ...b, key }, 201);
+  }
+  if(p[1]==="benches" && p[3]==="manage" && p.length===4 && req.method==="POST"){
+    const b=await bench(env,p[2]); await owner(req,b);await rate(env,req,"manage",30);
+    const input=await body(req,managementSchema);
+    if(input.action==="rotate"){
+      const key=token();const v=await env.DB.prepare("UPDATE benches SET key_hash=? WHERE id=? AND key_hash=?").bind(await hash(key),b.id,b.key_hash).run();
+      if(v.meta.changes!==1)fail("Access changed. Restore your latest access file.",409);
+      return json({key});
+    }
+    if(input.action==="delete"){
+      if(input.confirmation!==b.name)fail("The workbench name does not match.",409);
+      const v=await env.DB.prepare("DELETE FROM benches WHERE id=? AND key_hash=?").bind(b.id,b.key_hash).run();
+      if(v.meta.changes!==1)fail("Access changed. Refresh before deleting.",409);
+      return json({deleted:true});
+    }
+    const v=input.action==="rename"?await env.DB.prepare("UPDATE benches SET name=? WHERE id=? AND key_hash=?").bind(input.name,b.id,b.key_hash).run():await env.DB.prepare("UPDATE benches SET expires=? WHERE id=? AND key_hash=?").bind(now+30*DAY,b.id,b.key_hash).run();
+    if(v.meta.changes!==1)fail("Access changed. Restore your latest access file.",409);
+    return json({updated:true});
   }
   if (p[1] === "benches" && p.length === 3 && req.method === "GET") {
     const b = await bench(env, p[2]);
@@ -378,7 +397,7 @@ export default {
       });
     } catch (e) {
       if (e.status) return json({ error: e.message }, e.status);
-      console.error("RepairRelay request failed", e.name);
+      console.error("iFixit request failed", e.name);
       return json(
         {
           error:

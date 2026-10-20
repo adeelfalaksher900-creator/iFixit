@@ -58,3 +58,10 @@ export const actionSchema = z
     ownerConfirmed: z.boolean().optional(),
   })
   .strict();
+
+export const managementSchema = z.discriminatedUnion("action",[
+ z.object({action:z.literal("rotate")}).strict(),
+ z.object({action:z.literal("renew")}).strict(),
+ z.object({action:z.literal("rename"),name:line(2,60)}).strict(),
+ z.object({action:z.literal("delete"),confirmation:line(2,60)}).strict(),
+]);

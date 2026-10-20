@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import "./font.css";
 import "./style.css";
+import "./ios.css";
 import { categories, compare, metrics, shortId, stages } from "./domain.js";
 import {
   Logo,
@@ -40,40 +40,8 @@ import {
   Link2,
 } from "./ui.jsx";
 import { Research, Privacy } from "./info.jsx";
-const text = {
-  en: {
-    board: "Repair board",
-    outcomes: "Outcomes",
-    research: "Field notes",
-    access: "Access & export",
-    new: "New request",
-    refresh: "Refresh",
-    waiting: "Waiting for parts",
-    received: "Ready for repair",
-    repaired: "Confirmed repairs",
-    title: "Keep the repair moving.",
-    intro:
-      "Connect a diagnosed repair with a local spare-part donor. Check the fit, record the handover, and follow it through.",
-    demo: "Try an example workbench",
-    start: "Start your workbench",
-  },
-  ur: {
-    board: "مرمت بورڈ",
-    outcomes: "نتائج",
-    research: "تحقیق",
-    access: "رسائی اور ایکسپورٹ",
-    new: "نئی درخواست",
-    refresh: "تازہ کریں",
-    waiting: "پرزے کا انتظار",
-    received: "مرمت کے لیے تیار",
-    repaired: "مکمل مرمت",
-    title: "مرمت کا کام آگے بڑھائیں۔",
-    intro:
-      "ضرورت کے مطابق مقامی عطیہ کنندہ سے پرزہ حاصل کریں۔ پہلے جانچ کریں، پھر حوالگی اور مرمت کا نتیجہ درج کریں۔",
-    demo: "مثالی ورک بینچ آزمائیں",
-    start: "اپنا ورک بینچ بنائیں",
-  },
-};
+import { Welcome } from "./welcome.jsx";
+const text = { en: {board:"Repair board", outcomes:"Outcomes", research:"Research", access:"Settings & access", new:"New request", refresh:"Refresh", waiting:"Waiting for parts", received:"Ready for repair", repaired:"Confirmed repairs"}};
 const safeFile = (f) => {
   if (f.size > 8000) throw new Error("Access file is too large.");
   return f.text().then(JSON.parse);
@@ -84,7 +52,6 @@ const validAccess = (x) =>
   /^[a-f0-9]{64}$/.test(x.key);
 function App() {
   const [access, setAccess] = useState(() => readSaved("rr-access"));
-  const [lang, setLang] = useState(() => readSaved("rr-lang", "en"));
   const [page, setPage] = useState("board");
   const [bench, setBench] = useState(null);
   const [selected, setSelected] = useState(null);
@@ -92,12 +59,8 @@ function App() {
   const [busy, setBusy] = useState(false);
   const [modal, setModal] = useState(null);
   const [menu, setMenu] = useState(false);
-  const t = text[lang] || text.en;
-  useEffect(() => {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === "ur" ? "rtl" : "ltr";
-    persist("rr-lang", lang);
-  }, [lang]);
+  const t = text.en;
+  useEffect(() => {document.documentElement.lang="en"; document.documentElement.dir="ltr";}, []);
   const path = window.location.pathname.split("/").filter(Boolean);
   async function refresh(a = access) {
     if (!a) return;
@@ -127,7 +90,7 @@ function App() {
       const a = { version: 1, id: b.id, key: b.key };
       persist("rr-access", a);
       setAccess(a);
-      setModal(null);
+      setModal("backup");
       setPage("board");
     } catch (e) {
       setError(e.message);
@@ -142,7 +105,7 @@ function App() {
     try {
       const a = await safeFile(f);
       if (!validAccess(a))
-        throw new Error("Choose a valid RepairRelay private access file.");
+        throw new Error("Choose a valid iFixit private access file.");
       await api("/benches/" + a.id, { key: a.key });
       persist("rr-access", a);
       setAccess(a);
@@ -153,14 +116,7 @@ function App() {
       e.target.value = "";
     }
   }
-  const language = (
-    <Button
-      onClick={() => setLang(lang === "en" ? "ur" : "en")}
-      aria-label="Change language"
-    >
-      {lang === "en" ? "اردو" : "English"}
-    </Button>
-  );
+  const language = null;
   if (path[0] === "r")
     return <PublicRequest id={path[1]} language={language} />;
   if (path[0] === "receipt")
@@ -182,109 +138,7 @@ function App() {
         </main>
       </>
     );
-  if (!access)
-    return (
-      <>
-        <header className="public-head">
-          <Logo />
-          <nav>
-            <a href="/research">Why RepairRelay</a>
-            {language}
-          </nav>
-        </header>
-        <main className="welcome">
-          <div className="welcome-copy">
-            <h1>{t.title}</h1>
-            <p className="lead">{t.intro}</p>
-            <Button
-              primary
-              disabled={busy}
-              onClick={() => start("Community repair bench", true)}
-            >
-              {busy ? "Opening…" : t.demo}
-              <ArrowRight size={18} />
-            </Button>
-            <p className="small-text">
-              Fictional examples. A private session. No sign-up.
-            </p>
-            <ErrorBox error={error} />
-            <div className="start-box">
-              <h2>Have a repair waiting?</h2>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  start(new FormData(e.currentTarget).get("name"), false);
-                }}
-              >
-                <Field
-                  label="Repair shop or club name"
-                  name="name"
-                  required
-                  minLength={2}
-                  maxLength={60}
-                  placeholder="Your workbench name"
-                />
-                <Button type="submit" disabled={busy}>
-                  {t.start}
-                  <Plus size={16} />
-                </Button>
-              </form>
-              <label className="file-link">
-                Restore a private access file
-                <input
-                  type="file"
-                  accept="application/json,.json"
-                  onChange={restore}
-                />
-              </label>
-            </div>
-          </div>
-          <div className="welcome-proof">
-            <div className="sample-label">The repair journey</div>
-            <h2>
-              One part.
-              <br />A complete record.
-            </h2>
-            <div className="journey">
-              <div>
-                <Wrench />
-                <span>
-                  <strong>Diagnose</strong>A repairer records the exact part.
-                </span>
-              </div>
-              <div>
-                <Layers />
-                <span>
-                  <strong>Compare</strong>See matching and missing label
-                  details.
-                </span>
-              </div>
-              <div>
-                <PackageCheck />
-                <span>
-                  <strong>Receive</strong>A private code confirms handover.
-                </span>
-              </div>
-              <div>
-                <CheckCircle2 />
-                <span>
-                  <strong>Test & return</strong>Record the result and owner's
-                  confirmation.
-                </span>
-              </div>
-            </div>
-            <p>
-              Built for a local repair desk. Designed for donors on a phone.
-            </p>
-          </div>
-        </main>
-        <footer>
-          <span>RepairRelay · Neighborhood Hacks 2026</span>
-          <a href="/privacy">Privacy & pilot limits</a>
-          <a href="/research">Research & pilot plan</a>
-        </footer>
-      </>
-    );
+  if (!access) return <Welcome busy={busy} error={error} start={name=>start(name,false)} restore={restore}/>;
   const rows = bench?.repairs || [],
     current = rows.find((r) => r.id === selected),
     m = metrics(rows);
@@ -305,7 +159,7 @@ function App() {
           <div>
             <strong>{bench?.name || "Your workbench"}</strong>
             <small>
-              {bench?.demo ? "Example session" : "Local repair pilot"}
+              {bench?.demo ? "Example session" : "Private workbench"}
             </small>
           </div>
         </div>
@@ -314,6 +168,7 @@ function App() {
             <button
               key={key}
               className={page === key ? "active" : ""}
+              aria-current={page === key ? "page" : undefined}
               onClick={() => {
                 setPage(key);
                 setSelected(null);
@@ -350,6 +205,7 @@ function App() {
           <Button
             className="menu-toggle"
             aria-label="Toggle navigation"
+            aria-expanded={menu}
             onClick={() => setMenu(!menu)}
           >
             <Menu size={20} />
@@ -381,7 +237,7 @@ function App() {
             </Empty>
           ) : (
             <>
-              {bench.demo && (
+              {!!bench.demo && (
                 <div className="demo-notice">
                   <span>
                     <strong>Example session.</strong> Fictional cases and parts.
@@ -421,6 +277,7 @@ function App() {
                   bench={bench}
                   access={access}
                   restore={restore}
+                  onUpdate={async result=>{if(result.key){const next={...access,key:result.key};persist("rr-access",next);setAccess(next);return next;}await refresh();return access;}}
                   leave={() => {
                     localStorage.removeItem("rr-access");
                     setAccess(null);
@@ -432,6 +289,7 @@ function App() {
           )}
         </main>
       </div>
+      {modal === "backup" && <Modal title="Keep a way back in" onClose={()=>setModal(null)}><p>Your workbench is ready. Save its private access file before adding requests or leaving this device. There is no email recovery.</p><div className="actions"><Button primary onClick={()=>download("ifixit-private-access.json",access)}><Download size={16}/>Save private access file</Button><Button onClick={()=>setModal(null)}>Continue to workbench</Button></div><p className="small-text">Anyone with this file can manage the workbench. Keep it private. You can save another copy or rotate access from Settings & access.</p></Modal>}
       {modal === "new" && (
         <Modal title="New diagnosed request" onClose={() => setModal(null)}>
           <RequestForm
@@ -454,7 +312,7 @@ function App() {
             workbench starts with zero requests and zero repairs.
           </p>
           <Button
-            onClick={() => download("repairrelay-example-access.json", access)}
+            onClick={() => download("ifixit-example-access.json", access)}
           >
             <Download size={16} />
             Save example access
@@ -1229,7 +1087,7 @@ function Outcomes({ rows, demo }) {
         </div>
         <Button
           onClick={() =>
-            download("repairrelay-outcomes.json", {
+            download("ifixit-outcomes.json", {
               exported: new Date().toISOString(),
               demo: !!demo,
               outcomes: completed.map(({ offers, ...r }) => r),
@@ -1296,78 +1154,16 @@ function Outcomes({ rows, demo }) {
     </>
   );
 }
-function Access({ bench, access, restore, leave }) {
-  return (
-    <div className="prose">
-      <h1>Access & export</h1>
-      <p>
-        Workbench: {bench.name}. Available until {date(bench.expires)}.
-      </p>
-      <section>
-        <h2>Keep a way back in</h2>
-        <p>
-          This browser holds your workbench key. Save a private access file
-          before clearing browser data or moving devices. Anyone holding the
-          file has coordinator access.
-        </p>
-        <Button
-          primary
-          onClick={() => download("repairrelay-private-access.json", access)}
-        >
-          <Download size={16} />
-          Download private access file
-        </Button>
-        <label className="file-link">
-          Restore another workbench
-          <input type="file" accept=".json" onChange={restore} />
-        </label>
-      </section>
-      <section>
-        <h2>Save your repair records</h2>
-        <p>
-          This export contains your requests, donor aliases, inspection notes
-          and repair history. It excludes workbench keys, donor receipt keys and
-          handover codes. Share it only with people who should see those
-          records.
-        </p>
-        <Button
-          onClick={() =>
-            download("repairrelay-records.json", {
-              name: bench.name,
-              demo: !!bench.demo,
-              exported: new Date().toISOString(),
-              repairs: bench.repairs.map((r) => ({
-                ...r,
-                offers: r.offers.map(({ demoReceiptKey, ...o }) => o),
-              })),
-            })
-          }
-        >
-          <Download size={16} />
-          Export repair records
-        </Button>
-      </section>
-      <section>
-        <h2>Leave this device</h2>
-        <p>
-          Save your private access file first. Leaving removes remembered
-          workbench access from this browser. It does not delete server records.
-        </p>
-        <Button
-          onClick={() => {
-            if (
-              window.confirm(
-                "Have you saved your private access file? Leave this device now?",
-              )
-            )
-              leave();
-          }}
-        >
-          Leave this device
-        </Button>
-      </section>
-    </div>
-  );
+function Access({bench,access,restore,leave,onUpdate}) {
+ const [error,setError]=useState(""); const [busy,setBusy]=useState(false);const [notice,setNotice]=useState("");const [rotate,setRotate]=useState(false);const [remove,setRemove]=useState(false);
+ async function manage(input){setBusy(true);setError("");setNotice("");try{const result=await api(`/benches/${access.id}/manage`,{key:access.key,method:"POST",body:JSON.stringify(input)});if(input.action==="delete"){leave();return;}const next=await onUpdate(result);if(result.key){download("ifixit-private-access.json",next);setNotice("Access rotated. Save the new access file; all previous copies have stopped working.");setRotate(false);}else setNotice("Workbench updated.");}catch(e){setError(e.message);}finally{setBusy(false);}}
+ return <div className="prose settings"><h1>Settings & access</h1><p>Manage your private workbench and its records.</p><ErrorBox error={error}/>{notice&&<p className="success" role="status">{notice}</p>}
+ <section><h2>Your workbench</h2><form onSubmit={e=>{e.preventDefault();manage({action:"rename",name:new FormData(e.currentTarget).get("name")});}}><Field name="name" label="Repair shop or club name" defaultValue={bench.name} required minLength={2} maxLength={60}/><Button disabled={busy}>Save name</Button></form><p className="small-text">Public requests show this name. Use a club or shop name, without personal details.</p><p>Records available until {date(bench.expires)}.</p><Button disabled={busy} onClick={()=>manage({action:"renew"})}>Keep records for another 30 days</Button></section>
+ <section><h2>Your private access</h2><p>This browser remembers a private key. Anyone with the key or access file can manage this workbench. There is no email recovery. Keep a copy somewhere private.</p><div className="actions"><Button primary onClick={()=>download("ifixit-private-access.json",access)}><Download size={16}/>Save access file</Button><label className="file-link">Restore access<input type="file" accept=".json" onChange={restore}/></label></div><details open={rotate||undefined}><summary onClick={e=>{e.preventDefault();setRotate(!rotate)}}>Replace a lost or shared key</summary><p>Rotation signs out other devices using the old key. Save the new file immediately. Donor receipt keys stay separate.</p><Button disabled={busy} onClick={()=>manage({action:"rotate"})}>Rotate private access</Button></details></section>
+ <section><h2>Export your records</h2><p>Download requests, donor aliases, inspection notes and repair history. Access keys and handover codes are excluded. Keep this export private.</p><Button onClick={()=>download("ifixit-records.json",{name:bench.name,exported:new Date().toISOString(),repairs:bench.repairs.map(r=>({...r,offers:r.offers.map(({demoReceiptKey,...o})=>o)}))})}><Download size={16}/>Export repair records</Button></section>
+ <section><h2>Leave this device</h2><p>Save your access file first. This removes remembered coordinator access from this browser and keeps your server records.</p><Button onClick={leave}>Leave this device</Button></section>
+ <section className="danger-zone"><h2>Delete this workbench</h2><p>Deletes all requests, offers and outcomes from the active database. Public request links and donor receipts will stop working. Download your records first. Provider backups may retain deleted data temporarily.</p><Button onClick={()=>setRemove(!remove)} disabled={busy}>Review deletion</Button>{remove&&<form onSubmit={e=>{e.preventDefault();manage({action:"delete",confirmation:new FormData(e.currentTarget).get("confirmation")});}}><Field label={`Type ${bench.name} to confirm deletion`} name="confirmation" required autoComplete="off"/><Button className="destructive" disabled={busy}>Permanently delete workbench</Button></form>}</section>
+ <p className="small-text">Independent Neighborhood Hacks project. Not affiliated with iFixit, Inc.</p></div>;
 }
 function PublicRequest({ id, language }) {
   const [r, setR] = useState(null),
@@ -1654,7 +1450,7 @@ function Receipt({ requestId, offerId, language }) {
                 </Button>
                 <Button
                   onClick={() =>
-                    download("repairrelay-private-receipt.json", {
+                    download("ifixit-private-receipt.json", {
                       version: 1,
                       requestId,
                       offerId,
@@ -1726,7 +1522,7 @@ class ErrorBoundary extends React.Component {
       <main className="receipt">
         <h1>Something did not load.</h1>
         <p>Your saved server records are unchanged. Reload to try again.</p>
-        <Button onClick={() => location.reload()}>Reload RepairRelay</Button>
+        <Button onClick={() => location.reload()}>Reload iFixit</Button>
       </main>
     ) : (
       this.props.children

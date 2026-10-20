@@ -57,20 +57,9 @@ export {
 };
 export function Logo() {
   return (
-    <a className="brand" href="/" aria-label="RepairRelay home">
-      <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
-        <path
-          d="M6 25V7h12a6 6 0 1 1 0 12h-5l10 9M5 15h8"
-          stroke="currentColor"
-          strokeWidth="3"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <span>
-        RepairRelay<span className="brand-dot">.</span>
-      </span>
+    <a className="brand" href="/" aria-label="iFixit local home">
+      <span className="brand-icon"><Wrench size={20} strokeWidth={2.2}/></span>
+      <span>iFixit<span className="brand-dot"> / local</span></span>
     </a>
   );
 }
@@ -207,7 +196,7 @@ export async function api(path, { key, ...options } = {}) {
       ...options.headers,
     },
   });
-  const data = await r.json();
+  const data = await r.json().catch(()=>{throw new Error("The service is temporarily unavailable. Please retry.");});
   if (!r.ok) throw new Error(data.error || "Request failed. Please retry.");
   return data;
 }

@@ -24,7 +24,7 @@ const version = createHash("sha256")
 const jsPath = `/app-${version}.js`,
   cssPath = `/app-${version}.css`;
 const html =
-  '<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#164c3b"><meta name="description" content="RepairRelay connects diagnosed repair requests with local spare-part donors. Compare labels, confirm handover, and record the repair outcome."><title>RepairRelay | Keep the repair moving</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/app.css"></head><body><div id="root"></div><noscript>RepairRelay needs JavaScript for its workbench. Contact your repair coordinator to offer a part in person.</noscript><script type="module" src="/app.js"></script></body></html>';
+  '<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0066cc"><meta name="description" content="iFixit connects diagnosed repair requests with local spare-part donors. Compare labels, confirm handover, and record the repair outcome."><title>iFixit | Keep the repair moving</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/app.css"></head><body><div id="root"></div><noscript>iFixit needs JavaScript for its workbench. Contact your repair coordinator to offer a part in person.</noscript><script type="module" src="/app.js"></script></body></html>';
 const versionedHtml = html
   .replace("/app.js", jsPath)
   .replace("/app.css", cssPath);
@@ -39,7 +39,7 @@ const assets = {
     type: "text/css; charset=utf-8",
   },
   "/favicon.svg": {
-    body: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#164c3b"/><path d="M9 9h10a5 5 0 0 1 0 10h-4l7 7M9 25V9" fill="none" stroke="white" stroke-width="3"/></svg>',
+    body: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0066cc"/><path d="m10 23 9-9M19 7v6h6M7 23l3 3" fill="none" stroke="white" stroke-width="3"/></svg>',
     type: "image/svg+xml",
   },
 };

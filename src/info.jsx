@@ -5,7 +5,7 @@ export function Research() {
     <div className="prose">
       <h1>Built around a missing part.</h1>
       <p className="lead">
-        A repair stalls. A useful part sits elsewhere. RepairRelay helps a local
+        A repair stalls. A useful part sits elsewhere. iFixit / local helps a local
         coordinator connect the two and keep an honest record of what happens
         next.
       </p>
@@ -41,8 +41,8 @@ export function Research() {
       <section>
         <h2>The gap we chose</h2>
         <p>
-          iFixit provides repair guides and parts. Restarters supports community
-          repair and records repair outcomes. RepairRelay focuses on one narrow
+          The established company iFixit provides repair guides and parts. This independent student project is not affiliated with it. Restarters supports community
+          repair and records repair outcomes. iFixit / local focuses on one narrow
           workflow: a diagnosed local request, a donated part, a documented
           technician check, a donor handover receipt, and an owner-confirmed
           repair outcome.
@@ -102,11 +102,7 @@ export function Research() {
           Batteries, power supplies, medical equipment and safety-critical
           repairs are outside this pilot.
         </p>
-        <p>
-          The demo contains fictional cases and fictional part references. Its
-          totals belong only to your demo session. Bring real records into a
-          separate empty workbench.
-        </p>
+
       </section>
     </div>
   );
@@ -149,8 +145,8 @@ export function Privacy() {
       <section>
         <h2>Storage and retention</h2>
         <p>
-          Records are stored in a Cloudflare D1 database. Demo workbenches
-          expire after 7 days. Pilot workbenches expire after 30 days. Expired
+          Records are stored in a Cloudflare D1 database. Legacy example workbenches
+          expire after 7 days. Workbenches expire after 30 days unless renewed from Settings & access. Expired
           workbenches become inaccessible and are removed by daily cleanup.
           Cloudflare backup retention may extend beyond application deletion.
           Export your records before expiry.
@@ -158,8 +154,8 @@ export function Privacy() {
         <p>
           Access keys are remembered in browser local storage and sent over
           HTTPS in authorization headers. Server records store hashes of access
-          keys. No analytics, advertising scripts or paid AI calls are used.
-          Cloudflare processes request metadata for service operation. Rate
+          keys. You can rotate workbench access or permanently delete the active records in Settings & access. No analytics, advertising scripts or paid AI calls are used.
+          Vercel and Cloudflare process request metadata for service operation. Rate
           limiting stores an hourly hash of the client IP and a request counter,
           removed by cleanup after expiry.
         </p>

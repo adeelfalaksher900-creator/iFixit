@@ -1,50 +1,39 @@
-# RepairRelay
+# iFixit / local
 
-Connect a diagnosed repair with a local spare-part donor, then record the handover and repair outcome.
+A private workbench for community computer repair: request a diagnosed part, compare donor labels, record a handover and follow through to the repair outcome.
 
-[Open the working app](https://repairrelay.adeelfalaksher900.workers.dev/) · [Research and pilot plan](docs/RESEARCH.md) · [Product and technical specification](docs/SPECIFICATION.md) · [Validation](docs/VALIDATION.md)
+**[Open the working website](https://ifixit-tan.vercel.app/)** · [Research](docs/RESEARCH.md) · [Specification](docs/SPECIFICATION.md) · [Validation](docs/VALIDATION.md)
 
-Built during Neighborhood Hacks 2026 for the Environment & Sustainability track. The deployed app uses a real API and persistent database. The example workbench contains fictional cases, fictional part references and no claimed community impact.
+Independent Neighborhood Hacks 2026 student project. Not affiliated with iFixit, Inc. No existing iFixit branding or code is used. The code is MIT licensed; the license does not grant rights to third-party names or trademarks.
 
-## Try it
+## Use it
 
-1. Open the app and choose **Try an example workbench**. Each session gets its own private workbench.
-2. Open **Library laptop memory**. Review the mismatch and missing-detail offers. They cannot be reserved.
-3. Review the matching-label offer. Open its **example donor receipt** in another tab.
-4. Record an inspection and reserve the fictional part. Copy the code from the donor receipt and record handover.
-5. Record the test result and owner confirmation. The Outcomes page now counts one example repair.
-6. For your own records, choose **Start a real workbench**. It begins empty.
+1. Create a workbench using a repair shop or club name. It starts empty, with no fictional activity or impact totals.
+2. Save your private access file in **Settings & access**. It is a bearer credential, so keep it private. There is no email recovery.
+3. Add a diagnosed request for computer memory, a keyboard, a cooling fan or a hinge. Copy the exact model/revision, part number and specification. Keep personal details out of public fields.
+4. Share the public request link with known local donors. They submit a real offer and save their separate private receipt.
+5. Review the labels and physically inspect the part. Missing or mismatched labels block reservation on the server. A reservation lasts 48 hours.
+6. At a staffed handover, obtain the donor's private code and record receipt. Test the repair; record the result and the device owner's confirmation before counting success.
 
-The interface never treats a matching string as a safety certification. A competent technician must inspect and test the actual part. Demo actions are demonstrations, not real inspection evidence.
+Donors can withdraw pending or reserved offers. Coordinators can release reservations, close unfilled requests and reopen unresolved repairs. Search, stage filters, private exports and chronological history use saved database records.
 
-## What works
+## Control your records
 
-- Coordinator workbenches, separate public request pages, and private donor receipts.
-- Diagnosed requests for computer memory, keyboards, cooling fans and hinges.
-- Exact comparisons of device model/revision, part number and specification. Case and repeated spaces normalize. Punctuation, revisions and electrical values remain significant.
-- Missing fields and mismatches block reservation. Physical inspection notes and an explicit confirmation are required.
-- A single active reservation per request, a 48-hour collection window, donor withdrawal and coordinator release.
-- Donor-only handover code, physical receipt notes, test result and owner-confirmed repair completion.
-- Recorded unsuccessful outcomes, request closure/reopening and chronological repair history.
-- Persistent server records, access-file restore, private record exports, search and stage filters.
-- Responsive layout, keyboard-accessible native forms, Urdu navigation/RTL, English technical labels and detailed pilot guidance. Full Urdu translation and user research remain future work.
+Settings support workbench renaming, a fresh 30-day retention window, private access-file export/restore, key rotation, repair-record export, leaving a device and permanent active-database deletion. Rotation invalidates previous coordinator keys; donor keys remain separate. Deletion invalidates the workbench's public request and receipt links. Host backups can retain deleted data temporarily.
+
+This is capability access, not per-person accounts or verified technician identity. Anyone holding a coordinator key can act as that coordinator. Browser local storage is not encrypted. Share public request links rather than access files.
 
 ## Architecture
 
-```mermaid
-flowchart TD
-    Coordinator["Coordinator browser"] --> API["Same-origin Worker API"]
-    Donor["Donor browser"] --> API
-    API --> Validation["Validation and access checks"]
-    Validation --> DB["Isolated D1 database"]
-    API --> Assets["React app and local font"]
-```
+React + esbuild frontend, Cloudflare Worker API and D1 SQLite storage. Vercel serves the public `vercel.app` URL through a fixed upstream proxy. No open proxy or user-controlled upstream is accepted. The API allows browser mutations from its own origin and the explicit configured production `APP_ORIGIN`; it never trusts arbitrary forwarded hosts. The Vercel preview aliases are not authorized mutation origins.
 
-The Worker serves the app and API from the same origin. There are no paid APIs, analytics scripts, external fonts at runtime or AI compatibility guesses. Zod validation stays on the server. SQLite prepared statements bind all user data. Revision checks reject stale or concurrent writes rather than silently overwriting a donor offer.
+Strict Zod schemas, prepared SQL, request-size limits, hashed 256-bit access keys, per-IP hourly mutation limits, CSP, privacy headers, public-field minimization and revision-based compare-and-swap guard the workflow. An offer is not a safety certification. Compatibility comparison is exact text matching with only case/whitespace normalization. One request has one active reservation; the app does not maintain global part inventory.
 
-## Run locally
+The pilot is intended for a small known community, with a competent repairer and staffed handover desk. No batteries, power supplies, medical or other safety-critical equipment. No payment processing, AI diagnosis, identity verification, automatic emails or SMS. No fabricated interviews, users, pilot repairs, waste totals or carbon savings.
 
-Node.js 24 is required for the local SQLite adapter.
+## Local development
+
+Node.js 24 is required for the SQLite development adapter.
 
 ```sh
 npm ci
@@ -53,29 +42,20 @@ npm test
 npm run dev
 ```
 
-Open `http://localhost:4173`. The local database is `local.sqlite`, excluded from source control. Production uses the Cloudflare D1 binding `DB`, not this adapter.
+Open `http://localhost:4173`. Local SQLite data, generated assets, build output and environment files are excluded from source control. Production uses the D1 binding `DB`.
 
 ## Deploy your own
 
-1. Create a Cloudflare D1 database and run `schema.sql`.
-2. Build with `npm run build`.
-3. Deploy `dist/worker.js` as an ES module Worker, with compatibility date `2026-10-19` and the D1 binding named `DB`.
-4. Enable its workers.dev route and add a daily cron trigger for expired-record cleanup.
+Create your own D1 database, run `schema.sql`, build, then deploy `dist/worker.js` as an ES module Worker. Bind `DB`, set the exact allowed production `APP_ORIGIN`, enable its workers.dev route and the daily cleanup cron. `wrangler.example.jsonc` contains placeholders. Use a Vercel project with `vercel.json` pointing to **your** Worker, not this project's shared backend. Keep account credentials out of source and browser bundles. No paid upgrade or API key is required by the application. Provider free-tier quotas and account-wide limits apply; a reverse proxy can aggregate IP rate limits for multiple visitors.
 
-`wrangler.example.jsonc` documents the configuration. Supply your own database ID. No account token or production access key belongs in source control. The architecture fits Cloudflare's published free allowances for a small pilot. Account-wide usage still applies; no paid upgrade is required by this code.
+## Contributing and security
 
-## Access and limitations
+Read [SECURITY.md](SECURITY.md). Public source can be read and forked; public visibility does not grant write/merge permission. Changes require the repository owner's review under the configured GitHub rules. CI has read-only contents permission, does not deploy, does not approve PRs, and does not use `pull_request_target`. No auto-merge bot is configured. Review any suggested dependency update before merging.
 
-A random 256-bit capability key grants coordinator access. A separate key grants access to one donor receipt. Server records store key hashes. Access files are bearer credentials: keep them private. There is no identity check, credential revocation, email recovery or independently verified technician status in this pilot. Browser local storage is not encrypted.
+The 16 automated domain/API tests cover authorization, public/receipt isolation, matching, state transitions, stale revisions, expiry, validation, management controls and the proxy-origin boundary. Browser checks and their limits are recorded in `docs/VALIDATION.md`. Passing tests are evidence for those checks, not a guarantee of complete security or judging scores.
 
-Demo workbenches expire after 7 days. Real pilot workbenches expire after 30 days. Expired records are inaccessible and removed by daily application cleanup, subject to the host's backup retention. Download exports first. Do not enter names, home addresses, phone numbers, serial numbers or private details in public request fields.
+## Research and authorship
 
-This version has no production user pilot, catalog integration, image-based identification, automated safety assessment, payment processing or carbon accounting. See [SECURITY.md](SECURITY.md) for boundaries.
+Built for Environment & Sustainability. Primary repair-network data motivates the problem; local firsthand evidence and a real partner pilot are still pending. ChatGPT/Codex assisted research, implementation, design and testing. Better Design iOS references and Lumen glass/spacing guidance informed the UI. System fonts are used, with no remote font requests. Open-source dependencies are credited in `THIRD_PARTY_NOTICES.md`.
 
-## Evidence and authorship
-
-The problem is supported by primary repair-network research. Local firsthand observations and partner validation are still pending. No fabricated interviews, users, repair successes or environmental savings are presented.
-
-ChatGPT/Codex assisted research, implementation, review and testing. React, Lucide, Manrope, Zod, esbuild and Prettier are credited in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). The team should review all submission claims and confirm hackathon eligibility before final submission. Video and promotional images are intentionally pending creator review.
-
-MIT license.
+Video, thumbnail and the 15 promotional images remain pending the creator's website review. The Devpost entry remains a draft.

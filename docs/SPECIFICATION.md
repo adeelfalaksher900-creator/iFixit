@@ -1,4 +1,4 @@
-# RepairRelay product and technical specification
+# iFixit / local product and technical specification
 
 ## Product goal
 
@@ -43,13 +43,13 @@ The public request contains only the need and current stage. It never contains d
 
 ## Interaction design
 
-Framed-sheet style, seed 2103339914, selected for an everyday work queue. A pale green-grey frame references a community repair bench. The white work sheet carries the data. Manrope is bundled locally. Green signals checked progress; mismatch and uncertainty also have text, so color is not the sole signal.
+Minimal glossy iOS-style design selected by the creator. The English-only interface uses system fonts, white working surfaces, explicit frosted navigation/sheets, blue actions, a floating sidebar and segmented stage filters. Status uses distinct colors plus text. Motion is limited to transform/opacity and respects reduced-motion preferences. Better Design iOS references and Lumen material/spacing guidance informed the implementation.
 
 The screen's distinctive element is the part comparison: required and offered labels stay beside each other. Repair history and the four-stage strip expose what is still unproven. Metrics derive from the same request rows rendered in the table. No vanity charts or invented impact totals appear.
 
 Desktop grid: 228px sidebar + remaining workspace. The work sheet uses equal internal gutters. Detail splits into required-part and sharing panels. At tablet widths the sidebar folds. Phone navigation opens from the menu; table rows become stacked identities and status. Native forms have persistent labels, visible focus and validation. Native dialog semantics trap focus and Escape closes dialogs.
 
-Urdu navigation, translated main dashboard labels and RTL direction are included. Technical forms and validation remain primarily English. Full translation and assistive-technology testing with intended users are next steps.
+The interface, forms and validation are English-only as requested. Assistive-technology testing with intended users remains a next step.
 
 ## Technical design
 
@@ -98,3 +98,7 @@ Demo expiry is 7 days, pilot expiry 30 days. Expired workbenches stop responding
 - Withdrawal and expiry reopen the request.
 - Exports exclude keys/codes except explicit private access/receipt files.
 - Empty and failed states remain usable; no impact appears before a qualifying outcome.
+
+## Version 2 owner controls and delivery
+
+The public URL is https://ifixit-tan.vercel.app/ (Vercel proxy to a fixed Worker upstream). `APP_ORIGIN` authorizes that exact production browser origin. Arbitrary forwarded hosts do not authorize writes. Workbench management adds rename, 30-day renewal, atomic coordinator-key replacement and owner-confirmed active-database deletion. Every management operation authenticates the owning capability. No per-person accounts or email recovery are claimed. New users start with an empty workbench and receive an access-file reminder; legacy example data remains labeled when explicitly restored. Source: https://github.com/adeelfalaksher900-creator/iFixit .

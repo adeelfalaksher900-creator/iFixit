@@ -2,7 +2,22 @@
   "name": "repairrelay",
   "main": "dist/worker.js",
   "compatibility_date": "2026-10-19",
-  "d1_databases": [{"binding":"DB","database_name":"repairrelay","database_id":"REPLACE_WITH_YOUR_DATABASE_ID"}],
-  "triggers": {"crons":["17 3 * * *"]},
-  "observability": {"enabled":false}
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "repairrelay",
+      "database_id": "REPLACE_WITH_YOUR_DATABASE_ID"
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "17 3 * * *"
+    ]
+  },
+  "observability": {
+    "enabled": false
+  },
+  "vars": {
+    "APP_ORIGIN": "https://YOUR_PROJECT.vercel.app"
+  }
 }

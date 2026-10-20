@@ -50,6 +50,17 @@ No percentage score or winning outcome is guaranteed. Draft completion is delibe
 
 ## Limits of this evidence
 
-No live neighborhood pilot, physical repair, hardware compatibility test, independent owner attestation, screen-reader user session, physical Android/iPhone test, offline operation, heavy load test, exhaustive penetration test or guaranteed judging score is claimed. Full Urdu translation is incomplete. Access files are bearer credentials, with no recovery or revocation beyond expiry in this pilot.
+No live neighborhood pilot, physical repair, hardware compatibility test, independent owner attestation, screen-reader user session, physical Android/iPhone test, offline operation, heavy load test, exhaustive penetration test or guaranteed judging score is claimed. Access files remain bearer credentials. Version 2 adds key rotation and deletion, with no email recovery. The current interface is English-only; earlier RTL checks below describe the prior version.
 
 Required final media are pending creator review. Local evidence and enrollment eligibility still need confirmation before final hackathon submission.
+
+## Version 2 redesign validation — 20 October 2026
+
+- Clean build and all **16 domain/API tests pass**. New cases verify cross-workbench management denial, strict management input, immediate old-key rejection after rotation, rename/public-name consistency, renewal, typed deletion/cascade and unaffected independent workbenches. Proxy tests accept the exact production origin and reject hostile origins, spoofed forwarded hosts and cross-site writes.
+- Production dependency audit: **0 known vulnerabilities** at the time checked. This is not an exhaustive security audit.
+- Live Vercel browser flow: new empty workbench, diagnosed request, public donor offer, separate private receipt, label comparison, documented inspection, reservation, private-code handover, recorded test and owner-confirmed outcome all completed using explicitly fictional QA records. No real repair or impact is claimed.
+- Current landing reviewed on desktop and in a 390px QA frame: usable/scroll width **375/375px**, English, system font. Production retains framing DENY; controlled staging alone allows same-origin viewport inspection.
+- Better Design landing-copy check: pass, no blocking comprehension findings. The heuristic does not measure actual user comprehension.
+- Public code contains no runtime account tokens or private workbench keys. GitHub Actions uses pinned action revisions, read-only contents, a 10-minute timeout and build/test/production dependency checks. CI does not deploy or merge. Repository protection settings must be verified separately from source.
+
+Glossy navigation and temporary layers trade some paint cost for the creator’s chosen iOS appearance; task forms remain opaque for readability. Mobile checks use browser frames, not physical iPhones. No full WCAG certification, pentest certification or 100% judging score is claimed. Local firsthand problem evidence and eligibility confirmation remain submission gaps.

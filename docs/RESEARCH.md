@@ -1,10 +1,10 @@
-# RepairRelay research and gap analysis
+# iFixit / local research and gap analysis
 
 Research checked 19–20 October 2026. Proposed initial setting: one willing local computer repair desk or school repair club. No real partner, interview or pilot has been established in this build.
 
 ## Specific problem
 
-A diagnosed repair may remain unfinished because its required part is unavailable or too costly. A donor may hold a useful part without knowing which repair needs it. A general listing often omits revision, connector, condition or outcome. RepairRelay tests whether a coordinator can move a clearly specified part from an offer to a documented repair.
+A diagnosed repair may remain unfinished because its required part is unavailable or too costly. A donor may hold a useful part without knowing which repair needs it. A general listing often omits revision, connector, condition or outcome. iFixit / local tests whether a coordinator can move a clearly specified part from an offer to a documented repair.
 
 The Open Repair Alliance's 2024 supporting analysis lists 18,921 end-of-life records with a stated barrier: unavailable parts account for 4,676 entries (25%) and expensive parts for 3,362 (18%). This describes its community repair dataset, not all repairs or Pakistan. Repair Café's older analysis of 2021 data also found parts-related reasons in 40% of 525 unsuccessful repairs with recorded reasons. These datasets establish a credible repair barrier; they do not prove local donor supply or product adoption.
 
@@ -16,7 +16,7 @@ Sources:
 
 ## Existing solutions and bounded differentiation
 
-| Existing approach | What it already does | RepairRelay's chosen scope |
+| Existing approach | What it already does | iFixit / local's chosen scope |
 | --- | --- | --- |
 | [iFixit parts](https://www.ifixit.com/Parts) | Replacement parts and repair information | Local donated-part offers against one diagnosed need |
 | [Restarters parts guidance](https://wiki.restarters.net/Spare_parts) | Sourcing, salvage, specifications and part-quality considerations | A field-by-field comparison that preserves uncertainty and requires a technician decision |
@@ -86,7 +86,7 @@ Eligibility requires current high-school or equivalent enrollment. The team must
 
 - Whether local repairers have enough diagnosed part-waiting cases in these categories.
 - Whether reachable donors have the correct parts and will attend collection.
-- Whether English technical labels with Urdu navigation are sufficient for intended users.
+- Whether the English-only interface works for the intended repairers and donors; creator selected English-only for this version.
 - Whether a capability-file model is understandable without identity accounts.
 - Whether coordinator-reported evidence needs stronger independent owner confirmation.
 - Whether running a physical repair desk has the staffing and competence needed for the selected cases.

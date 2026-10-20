@@ -334,3 +334,29 @@ test("static assets carry security policy and unknown endpoints stay 404", async
   assert.equal((await h.call("/missing")).status, 404);
   h.DB.close();
 });
+
+test("workbench management requires its owner, rotates access, renews, and deletes scoped records",async()=>{
+ const h=harness(),{b,r}=await setup(h);const other=(await h.call('/benches',{name:'Other independent bench',demo:false})).data;
+ const path=`/benches/${b.id}/manage`;
+ assert.equal((await h.call(path,{action:'delete',confirmation:b.name},other.key)).status,401);
+ assert.equal((await h.call(path,{action:'rotate',injected:true},b.key)).status,400);
+ const rotated=await h.call(path,{action:'rotate'},b.key);assert.equal(rotated.status,200);const key=rotated.data.key;assert.match(key,/^[a-f0-9]{64}$/);assert.notEqual(key,b.key);
+ assert.equal((await h.call('/benches/'+b.id,null,b.key)).status,401);
+ assert.equal((await h.call(path,{action:'delete',confirmation:b.name},b.key)).status,401);
+ assert.equal((await h.call('/benches/'+b.id,null,key)).status,200);
+ assert.equal((await h.call(path,{action:'rename',name:'Renamed local desk'},key)).status,200);
+ assert.equal((await h.call('/requests/'+r.id)).data.benchName,'Renamed local desk');
+ assert.equal((await h.call(path,{action:'renew'},key)).status,200);
+ const renewed=await h.call('/benches/'+b.id,null,key);assert.ok(renewed.data.expires>Date.now()+29*86400000);
+ assert.equal((await h.call(path,{action:'delete',confirmation:b.name},key)).status,409);
+ assert.equal((await h.call(path,{action:'delete',confirmation:'Renamed local desk'},key)).status,200);
+ assert.equal((await h.call('/requests/'+r.id)).status,404);
+ assert.equal((await h.call('/benches/'+b.id,null,key)).status,404);
+ assert.equal((await h.call('/benches/'+other.id,null,other.key)).status,200);
+});
+test("proxy permits only the configured production origin and ignores spoofed host headers",async()=>{
+ const DB=database();const send=async(origin,extra={})=>worker.fetch(new Request('https://repair.test/api/benches',{method:'POST',headers:{'Content-Type':'application/json',Origin:origin,...extra},body:JSON.stringify({name:'Proxy boundary test',demo:false})}),{DB,APP_ORIGIN:'https://ifixit-tan.vercel.app'});
+ assert.equal((await send('https://ifixit-tan.vercel.app')).status,201);
+ assert.equal((await send('https://evil.test',{'X-Forwarded-Host':'ifixit-tan.vercel.app'})).status,403);
+ assert.equal((await send('https://ifixit-tan.vercel.app',{'Sec-Fetch-Site':'cross-site'})).status,403);
+});
