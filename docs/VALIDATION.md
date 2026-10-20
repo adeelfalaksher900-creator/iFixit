@@ -23,11 +23,30 @@ Build and test date: 20 October 2026. These checks apply to this prototype, not 
 
 API tests execute the built production Worker with an in-memory SQLite adapter that implements the D1 methods used. They are not a managed-D1 load or race benchmark.
 
-## Live deployment evidence
+## Live deployment and browser evidence
 
-Cloudflare accepted the Worker upload and D1 binding. The public HTTPS home page and example workbench loaded. A real isolated example workbench persisted its three fictional requests. The UI showed matching, mismatch and missing-detail offers. Mismatch reservation was visibly disabled. A matching offer reserved after inspection notes and confirmation. Further live browser checks are recorded as the review proceeds.
+Cloudflare accepted the production Worker and dedicated D1 binding. The public HTTPS app loaded. The production walkthrough created an isolated example workbench, reviewed a blocked mismatch, reserved a matching fictional part after inspection notes and confirmation, recorded physical handover with the private donor receipt code, and saved an example test plus owner confirmation. Outcomes counted one example repair. These were fictional software checks, not physical repairs.
 
-The application bundle is approximately 279KB JavaScript plus 57KB CSS including its local font before HTTP compression. Server-only validation is excluded from the browser bundle. No runtime external font, analytics or AI request is required.
+Further checks on an identical staging build submitted a new donor offer through the public form, reached its private receipt, and removed the receipt key fragment from the address bar. Production access and record files downloaded successfully; the access file restored the same workbench without error. Escape closed the mobile request dialog and returned focus to New request.
+
+Responsive checks used 390px and 768px iframe viewports on an isolated staging origin. At the 390px frame, usable document width and scroll width were both 375px in English and Urdu RTL. The phone detail view's inspected visible buttons were all at least 44px high. The tablet and normal desktop layouts were visually reviewed. This is browser viewport testing, not physical-phone testing. The production framing policy stays DENY; the staging copy permits only its own origin for the viewport harness.
+
+Contrast calculations from final CSS: main text on white 16.37:1, secondary text 6.16:1, green status text on its pale fill 8.81:1. Input borders were strengthened from 2.74:1 to 3.53:1 against white. Native label text remains present. The source design lint reported zero failures; overlay shadows and hexadecimal token padding explain its warnings. A standalone browser design inspector could not run in the local environment, so no inspector certification is claimed.
+
+The browser application is about 279KB JavaScript plus 58KB CSS including the local font before HTTP compression. Validation stays server-side. Content-based asset filenames prevent old cached app files from masking a new deployment. Completed/closed requests retire unused offers; a regression assertion prevents them from remaining in the attention queue. Requests needing review or repair appear first.
+
+## Judging readiness
+
+| Criterion | Evidence prepared | Still needed |
+| --- | --- | --- |
+| Community Relevance, 25% | Primary-source problem research and bounded local-pilot questions | Creator's firsthand case and actual repairer feedback |
+| Impact Potential, 20% | Practical one-desk model and explicit success/failure measures | Pilot results against a real baseline |
+| Technical Execution, 20% | Working persistent API, separated access, complete repair loop, 14 passing tests | Physical-device and broader field validation |
+| Creativity, 15% | Specific donor/check/handover/outcome workflow and competitor comparison | Judge assessment and real-user feedback |
+| Presentation, 10% | Live app, public source, full Devpost draft and technical documentation | Creator-approved 2–6 minute video and final visual assets |
+| Accessibility, 10% | Responsive layout, labels, focus, contrast checks, Urdu navigation and RTL | Full translation and assistive-technology sessions |
+
+No percentage score or winning outcome is guaranteed. Draft completion is deliberately separate from final submission.
 
 ## Limits of this evidence
 
