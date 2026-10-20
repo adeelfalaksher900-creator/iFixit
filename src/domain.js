@@ -30,6 +30,11 @@ export const stages = [
 ];
 export const shortId = (id) => id.slice(0, 6).toUpperCase();
 export function cleanExpiry(r, now) {
+  if (["Repaired", "Not repaired", "Closed"].includes(r.status)) {
+    for (const offer of r.offers) {
+      if (offer.status === "Offered") offer.status = "Request finished";
+    }
+  }
   if (r.status === "Reserved" && r.reservedUntil <= now) {
     const o = r.offers.find((o) => o.id === r.selected);
     if (o) o.status = "Expired";
@@ -129,7 +134,7 @@ export function transition(r, a, now) {
     }[a.action],
     note: note || a.test || "",
   });
-  return r;
+  return cleanExpiry(r, now);
 }
 export function metrics(rows) {
   return {
@@ -139,7 +144,7 @@ export function metrics(rows) {
     repaired: rows.filter((r) => r.status === "Repaired").length,
     unresolved: rows.filter((r) => r.status === "Not repaired").length,
     offers: rows.reduce(
-      (n, r) => n + r.offers.filter((o) => o.status === "Offered").length,
+      (n, r) => n + (r.status === "Waiting for part" ? r.offers.filter((o) => o.status === "Offered").length : 0),
       0,
     ),
   };

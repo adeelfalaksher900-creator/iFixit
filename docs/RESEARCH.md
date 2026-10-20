@@ -80,7 +80,7 @@ The event requires work created during 16–23 October 2026, disclosure of AI/op
 
 The published criterion weights are Community Relevance 25%, Impact Potential 20%, Technical Execution 20%, Creativity 15%, Presentation & Clarity 10%, Accessibility 10%. Local evidence remains the largest submission gap. Software checks cannot guarantee a judge's score.
 
-Eligibility requires current high-school or equivalent enrollment. The creator's previously stated gap-year status needs an organizer eligibility decision before final submission. This draft does not attest eligibility or accept final submission terms.
+Eligibility requires current high-school or equivalent enrollment. The team must confirm that it meets this requirement before final submission. This draft does not attest eligibility or accept final submission terms.
 
 ## Remaining uncertainties
 

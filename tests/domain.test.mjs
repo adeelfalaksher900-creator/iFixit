@@ -99,6 +99,7 @@ test("reserve requires inspection and single allocation", () => {
 });
 test("handover code and owner-confirmed test gate the completed repair", () => {
   const r = fixture();
+  r.offers.push({...r.offers[0],id:"b"});
   transition(
     r,
     {
@@ -148,6 +149,8 @@ test("handover code and owner-confirmed test gate the completed repair", () => {
     4000,
   );
   assert.equal(metrics([r]).repaired, 1);
+  assert.equal(r.offers[1].status,"Request finished");
+  assert.equal(metrics([r]).offers,0);
 });
 test("failed repairs stay unresolved and can reopen for another part", () => {
   const r = fixture();

@@ -385,7 +385,6 @@ function App() {
                 <div className="demo-notice">
                   <span>
                     <strong>Example session.</strong> Fictional cases and parts.
-                    Your changes are saved only to this workbench.
                   </span>
                   <Button small onClick={() => setModal("switch")}>
                     Start a real workbench <ArrowUpRight size={14} />
@@ -486,7 +485,8 @@ function App() {
 function Board({ rows, m, t, onSelect, onNew, onRefresh, busy, demo }) {
   const [query, setQuery] = useState(""),
     [filter, setFilter] = useState("All");
-  const filtered = rows.filter(
+  const priority = (r) => r.status === "Received" ? 4 : r.status === "Waiting for part" && r.offers.some(o => o.status === "Offered") ? 3 : r.status === "Reserved" ? 2 : r.status === "Waiting for part" ? 1 : 0;
+  const filtered = rows.toSorted((a,b) => priority(b) - priority(a)).filter(
     (r) =>
       (filter === "All" || r.status === filter) &&
       [r.title, r.model, r.part, r.category]
