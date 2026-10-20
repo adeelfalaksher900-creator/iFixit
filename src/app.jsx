@@ -138,7 +138,7 @@ function App() {
         </main>
       </>
     );
-  if (!access) return <Welcome busy={busy} error={error} start={name=>start(name,false)} restore={restore}/>;
+  if (!access) return <Welcome busy={busy} error={error} start={name=>start(name,false)} startDemo={()=>start("Neighborhood repair desk · demo",true)} restore={restore}/>;
   const rows = bench?.repairs || [],
     current = rows.find((r) => r.id === selected),
     m = metrics(rows);

@@ -17,6 +17,10 @@ Independent Neighborhood Hacks 2026 student project. Not affiliated with iFixit,
 
 Donors can withdraw pending or reserved offers. Coordinators can release reservations, close unfilled requests and reopen unresolved repairs. Search, stage filters, private exports and chronological history use saved database records.
 
+## Try the demo
+
+Choose **Open demo workbench** on the landing page. Each visitor gets a separate server-backed workbench with three fictional diagnosed repairs and three donor offers: an exact label match, a mismatch, and an incomplete label. Demo labels use DEMO references and are not real compatibility claims. Use the memory request to compare offers, inspect and reserve a part, open the sample donor receipt, record handover and complete a test. Demo records expire after seven days; they never count as evidence of real repairs. Create a separate empty workbench for real use.
+
 ## Control your records
 
 Settings support workbench renaming, a fresh 30-day retention window, private access-file export/restore, key rotation, repair-record export, leaving a device and permanent active-database deletion. Rotation invalidates previous coordinator keys; donor keys remain separate. Deletion invalidates the workbench's public request and receipt links. Host backups can retain deleted data temporarily.
@@ -58,4 +62,4 @@ The 16 automated domain/API tests cover authorization, public/receipt isolation,
 
 Built for Environment & Sustainability. Primary repair-network data motivates the problem; local firsthand evidence and a real partner pilot are still pending. ChatGPT/Codex assisted research, implementation, design and testing. Better Design iOS references and Lumen glass/spacing guidance informed the UI. System fonts are used, with no remote font requests. Open-source dependencies are credited in `THIRD_PARTY_NOTICES.md`.
 
-Video, thumbnail and the 15 promotional images remain pending the creator's website review. The Devpost entry remains a draft.
+The creator has approved website review and requested a narrated walkthrough and 15 captioned gallery screenshots. Media preparation is in progress. The Devpost entry remains a draft.
