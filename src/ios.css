@@ -9,3 +9,8 @@ body{background:radial-gradient(ellipse at 90% 0%,#e8f0ff 0,transparent 45%),#f5
 @media(min-width:851px){.sidebar{display:flex}.workspace-head .menu-toggle{display:none!important}.workspace{padding:0}}
 
 .brand-icon svg{color:white}.nav-count{border-radius:6px;padding:1px 6px}
+
+/* Preserve icon affordances and input inset on narrow screens. */
+.search input{padding-inline-start:38px}
+@media(max-width:600px){.toolbar .search input{padding-inline-start:36px}.toolbar .button{min-width:44px;justify-content:center}.toolbar .button svg{display:block}.workspace-head{position:sticky;top:0;z-index:11;background:rgba(245,248,253,.94);backdrop-filter:blur(18px);border-radius:14px}}
+.primary{background:linear-gradient(180deg,#006dd8,#005fc1)}

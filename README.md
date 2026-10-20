@@ -50,7 +50,7 @@ Create your own D1 database, run `schema.sql`, build, then deploy `dist/worker.j
 
 ## Contributing and security
 
-Read [SECURITY.md](SECURITY.md). Public source can be read and forked; public visibility does not grant write/merge permission. Changes require the repository owner's review under the configured GitHub rules. CI has read-only contents permission, does not deploy, does not approve PRs, and does not use `pull_request_target`. No auto-merge bot is configured. Review any suggested dependency update before merging.
+Read [SECURITY.md](SECURITY.md). Public source can be read and forked; public visibility does not grant write/merge permission. Owner review is the contribution policy. CODEOWNERS records the owner. Activation of the prepared remote branch rules currently requires GitHub account verification; see the current status in docs/VALIDATION.md. CI has read-only contents permission, does not deploy, does not approve PRs, and does not use `pull_request_target`. No auto-merge bot is configured. Review any suggested dependency update before merging.
 
 The 16 automated domain/API tests cover authorization, public/receipt isolation, matching, state transitions, stale revisions, expiry, validation, management controls and the proxy-origin boundary. Browser checks and their limits are recorded in `docs/VALIDATION.md`. Passing tests are evidence for those checks, not a guarantee of complete security or judging scores.
 
