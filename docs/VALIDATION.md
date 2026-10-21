@@ -1,5 +1,17 @@
 # Validation evidence
 
+## Current checkpoint — 21 October 2026
+
+The current app is English-only and has 16 passing domain/API tests. Older sections below preserve earlier build checks, including the previous 14-test and RTL versions. They are historical evidence rather than claims about the current interface.
+
+The GitHub API now confirms active ruleset **Owner approval protection** (ID 25498497) on the default branch: restricted updates and deletion, blocked force pushes, pull requests, one approving review, Code Owner review, dismissal of stale reviews and resolved conversations. The sole bypass actor is **@adeelfalaksher900-creator**, limited to pull requests. No app or bot is on the bypass list. Auto-merge is disabled. The current ruleset does not require a status check. The owner must inspect CI and manually decide whether to merge.
+
+README and contribution documentation changes are proposed through a separate pull request for the owner's review. They do not change the website, API or design. New local deployment configuration, Wrangler state and local variable files are ignored by Git.
+
+The original complete video/source ZIP remains listed on the Devpost draft. The creator will upload the video personally. Final submission, firsthand local evidence and enrollment eligibility remain creator decisions.
+
+## Historical application and media evidence
+
 Build and test date: 20 October 2026. These checks apply to this prototype, not to every device or future deployment.
 
 ## Automated checks completed
@@ -67,7 +79,7 @@ Glossy navigation and temporary layers trade some paint cost for the creator’s
 
 Final responsive checks of the current QA build verified menu activation by pointer and keyboard, settings navigation, the new access-file reminder, 44px-or-larger inspected phone settings buttons, and equal document/scroll widths at 390px and 768px. Mobile review found a search-icon inset conflict and a hidden refresh icon inherited from the previous stylesheet; both are fixed in the final build. Live owner renaming saved and updated the workbench.
 
-GitHub source checkpoint `4c33d5f7a6cbc2351f452418226ab86e844a311f` passed the public Build and verify workflow (run 39401264195). A remote ruleset is fully prepared for the default branch: restricted updates/deletions, blocked force pushes, owner code review, stale-review dismissal, conversation resolution and required GitHub Actions `check`. Only the existing Repository admin role is on the bypass list; no app was added. **Activation is pending GitHub's Confirm access verification.** The rules must not be represented as active until that step succeeds. Auto-merge was observed disabled in repository General settings. No account-wide app permissions were modified.
+GitHub source checkpoint `4c33d5f7a6cbc2351f452418226ab86e844a311f` passed the public Build and verify workflow (run 39401264195). At that earlier checkpoint, a remote ruleset was fully prepared for the default branch: restricted updates/deletions, blocked force pushes, owner code review, stale-review dismissal, conversation resolution and required GitHub Actions `check`. Only the existing Repository admin role is on the bypass list; no app was added. **Historical status: activation was pending GitHub's Confirm access verification.** See the current checkpoint above for the ruleset verified active on 21 October. Auto-merge was observed disabled in repository General settings. No account-wide app permissions were modified.
 
 
 ## Demo entry and media review — October 20, 2026
@@ -78,4 +90,5 @@ A fresh live session created a fourth fictional request, submitted a public dono
 
 A Hyperframes edited walkthrough was composed from actual website captures and local Kokoro synthetic narration. The final MP4 is H.264/AAC, 1920 × 1080 at 30 fps, 259.366667 seconds and 7,781 frames. Full-file decode passed with no errors. Hyperframes runtime and layout checks passed, all 50 sampled caption/text contrast checks passed, and an additional 15-sample layout sweep found no issues. A hero frame from each of the 18 scenes was reviewed. These checks do not imply every possible visual or accessibility condition was tested.
 
-All 15 gallery captures have nonempty Devpost captions within 140 characters and are saved in order; the separate AI-generated thumbnail is saved too. The MP4 is prepared for a supporting ZIP attachment. The embedded video URL remains blocked by YouTube account verification. GitHub rulesets were rechecked and remain empty: activation of the prepared owner-controlled main-branch rule still requires account verification. CODEOWNERS and CI are present; no active remote branch-protection claim is made.
+All 15 gallery captures have nonempty Devpost captions within 140 characters and are saved in order; the separate AI-generated thumbnail is saved too. The MP4 is prepared for a supporting ZIP attachment. The embedded video URL remains blocked by YouTube account verification. At the 20 October media checkpoint, GitHub rulesets were empty and activation required account verification. That historical blocker has since been resolved; the current checkpoint above records the active owner-approval protection.
+
