@@ -6,16 +6,17 @@
 
 A community repair workbench that connects a diagnosed computer repair with a local spare-part donor, then follows the part through inspection, handover and a recorded result.
 
-[Open the website](https://ifixit-tan.vercel.app/) · [Try the demo](#try-the-demo) · [Run locally](#run-your-own-local-copy) · [Self-host](#deploy-your-own-instance) · [Contribute](CONTRIBUTING.md)
+[Open the website](https://ifixit-tan.vercel.app/) · [Try the demo](#try-the-demo) · [Local setup](#local-setup) · [Deployment](#deployment) · [Contribute](CONTRIBUTING.md)
 
 ![Build and verify](https://github.com/adeelfalaksher900-creator/iFixit/actions/workflows/check.yml/badge.svg)
 ![License: MIT](https://img.shields.io/badge/license-MIT-0066cc)
 ![Runtime: Node.js 24](https://img.shields.io/badge/Node.js-24-235e3a)
-![Access: owner-reviewed PRs](https://img.shields.io/badge/contributions-owner--reviewed_PRs-0066cc)
 
 </div>
 
 > Independent Neighborhood Hacks 2026 student project. Not affiliated with iFixit, Inc. The MIT license covers this repository's code and does not grant rights to third-party names or trademarks.
+
+[Purpose](#purpose) · [Workflow](#repair-workflow) · [Architecture](#architecture) · [Stack](#stack) · [Project map](#project-map)
 
 ## Start here
 
@@ -27,7 +28,7 @@ A community repair workbench that connects a diagnosed computer repair with a lo
 | Keep your own database | Follow the local or self-hosted setup below |
 | Suggest a code change | Fork, open a pull request and wait for Adeel's review |
 
-## The problem and the focus
+## Purpose
 
 A diagnosed repair can stall while a repairer looks for the right part. A donor with a spare needs a clear request, and the coordinator needs a way to check the labels and record what happened next.
 
@@ -46,7 +47,7 @@ The [research and pilot plan](docs/RESEARCH.md) separates repair-network evidenc
 
 The initial scope is computer memory, keyboards, cooling fans and hinges. Batteries, power supplies, medical devices and other safety-critical repairs are outside the pilot.
 
-## The repair workflow
+## Repair workflow
 
 ```mermaid
 flowchart TD
@@ -120,7 +121,7 @@ The Worker bundles and serves the React app as well as its API. The fixed Vercel
 
 For local use, a Node HTTP adapter runs the same built Worker against a local SQLite database. You do not need Cloudflare, Vercel or an API key to run the local copy.
 
-## Languages and tools
+## Stack
 
 | Layer | Technology | Role |
 | --- | --- | --- |
@@ -143,7 +144,7 @@ pie showData
 
 Source snapshot: `3d748c9`, before this documentation update. Counts sum tracked `.js`, `.jsx`, `.mjs`, `.css` and `.sql` file sizes. They exclude documentation, JSON, dependencies and build output. This is a source-size breakdown, not runtime usage or an impact metric.
 
-## Run your own local copy
+## Local setup
 
 ### Requirements
 
@@ -199,7 +200,7 @@ After a source change, stop the server, rebuild, run tests and restart it. There
 | A write returns an origin error | Use the same local hostname consistently. For a deployment, verify the exact `APP_ORIGIN` |
 | Your changes are absent | Rebuild the bundle and restart the server |
 
-## Deploy your own instance
+## Deployment
 
 Use your own Cloudflare account, Worker and D1 database. Your deployment must not point to this project's shared backend.
 
@@ -245,17 +246,15 @@ Reference: [Cloudflare D1 commands](https://developers.cloudflare.com/d1/wrangle
 | `wrangler.example.jsonc`, `vercel.json` | Infrastructure examples |
 | `docs/` | Research, specification and validation evidence |
 
-## Contributions require your review
+## Contributing
 
 This repository stays public and MIT licensed. Anyone may read it, download it, fork it or propose a pull request. Those actions do not grant permission to alter this repository's protected default branch.
 
-The active **Owner approval protection** ruleset targets the default branch. It restricts updates and deletion, blocks force pushes, requires a pull request, one approving review, Code Owner review, dismissal of stale approvals and resolution of review conversations. The only bypass actor is **@adeelfalaksher900-creator**, and that bypass is restricted to pull requests. No bot or app appears in the bypass list. Auto-merge is disabled. Verified on **21 October 2026**.
-
-Adeel reviews contributions and chooses whether to merge or reject them. Even an owner-authored change goes through a pull request; the owner retains the PR-only exception needed to merge their own work. No bot approves or merges changes automatically. Current rules do not require the CI status check; the owner should inspect the **Build and verify** result before merging.
+Contributions follow an owner-reviewed pull request process. Adeel reviews proposed changes and decides whether to merge or reject them. Check the **Build and verify** workflow before review; CI results do not replace maintainer approval. See the repository's current branch rules for the enforced settings.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for the fork-and-review process. CI uses pinned action revisions, read-only repository contents and no deployment step, `pull_request_target` workflow or automatic approval. Account security and careful review still matter. Do not upload account tokens, environment files, database files, private access files or donor receipt credentials.
 
-## Validation, limits and next steps
+## Validation and scope
 
 The current application has **16 passing domain/API tests**, with details in [Validation evidence](docs/VALIDATION.md). They cover label gates, inspection and outcome rules, access isolation, stale revisions, expiry, withdrawal, schema checks, rate limits, management controls and the explicit proxy-origin boundary. A dependency audit reported zero known production vulnerabilities at review time.
 
@@ -270,3 +269,4 @@ Built for the **Environment & Sustainability** track of Neighborhood Hacks 2026.
 The edited walkthrough uses actual website captures, Hyperframes composition, synthetic English narration and captions. Gallery captures show explicitly fictional example records. The AI-generated project thumbnail is separate from those captures.
 
 Released under the [MIT License](LICENSE).
+
